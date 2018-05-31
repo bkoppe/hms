@@ -1,0 +1,10 @@
+spring:
+  jpa:
+    show-sql: true
+    database: hsql
+    hibernate:
+      ddl-auto: none
+    generate-ddl: true
+
+hms:
+  current-season: season_2017_2018
