@@ -128,6 +128,10 @@ public class Ranking {
     //TODO make me configurable
     @Transient
     public boolean isUpToDate() {
+        if (getLastCrawl() == null) {
+            return false;
+        }
+
         return LocalDateTime.now().minusMinutes(15).isBefore(getLastCrawl()) && !isEmpty(getRanks());
     }
 
