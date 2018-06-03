@@ -1,5 +1,6 @@
 package de.augsburg1871.handball.hms.api.v1.ranking;
 
+import com.google.common.collect.Lists;
 import de.augsburg1871.handball.hms.api.v1.ranking.assembler.RankingResourceAssembler;
 import de.augsburg1871.handball.hms.api.v1.ranking.assembler.RankingSummaryResourceAssembler;
 import de.augsburg1871.handball.hms.api.v1.ranking.resource.RankingResource;
@@ -10,12 +11,15 @@ import de.augsburg1871.handball.hms.config.HmsProperties;
 import de.augsburg1871.handball.hms.ranking.persistence.model.Ranking;
 import de.augsburg1871.handball.hms.ranking.service.RankingService;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
@@ -40,6 +44,15 @@ public class RankingController {
         this.rankingSummaryResourceAssembler = rankingSummaryResourceAssembler;
     }
 
+    @GetMapping
+    public Resource index(){
+        List<Link> links = Lists.newArrayList(
+                linkTo(methodOn(RankingController.class).getRankings(null)).withRel("find"),
+                linkTo(methodOn(RankingController.class).getRankings(hmsProperties.getCurrentSeason().getId())).withRel("current")
+        );
+        return new Resource("Select a season.", links);
+    }
+
 
     @GetMapping(path = "{season}")
     public Resources<RankingSummaryResource> getRankings(@PathVariable String season) {
@@ -54,11 +67,11 @@ public class RankingController {
         Resources<RankingSummaryResource> resources = new Resources<>(rankingSummaryResourceAssembler.toResources(rankings));
 
         if (mappedSeason.getNext().isPresent()) {
-            resources.add(linkTo(methodOn(RankingController.class).getRankings(mappedSeason.getNext().get().getId())).withRel("next season"));
+            resources.add(linkTo(methodOn(RankingController.class).getRankings(mappedSeason.getNext().get().getId())).withRel("next"));
         }
 
         if (mappedSeason.getPrevious().isPresent()) {
-            resources.add(linkTo(methodOn(RankingController.class).getRankings(mappedSeason.getPrevious().get().getId())).withRel("previous season"));
+            resources.add(linkTo(methodOn(RankingController.class).getRankings(mappedSeason.getPrevious().get().getId())).withRel("prev"));
         }
         return resources;
     }
