@@ -14,7 +14,7 @@ import java.util.Optional;
 
 import static org.apache.commons.lang3.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 
-@Table(name = "RANKS")
+@Table(name = "RANKING_RANKS")
 @Entity
 public class Rank implements Comparable<Rank> {
 
