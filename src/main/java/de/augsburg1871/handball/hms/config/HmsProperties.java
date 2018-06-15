@@ -17,7 +17,7 @@ public class HmsProperties {
     /**
      * <p>Mannschaftsbezeichnungen unter denen unser Verein beim BHV geführt wird.</p>
      */
-    private Set<String> teamNames = Sets.newHashSet("Augsburg 1871", "Augsburg 1871 II", " SG Augsburg-Gersthofen");
+    private Set<String> teamNames = Sets.newHashSet("Augsburg 1871", "Augsburg 1871 II", "SG Augsburg-Gersthofen");
 
 
     public Season getCurrentSeason() {
