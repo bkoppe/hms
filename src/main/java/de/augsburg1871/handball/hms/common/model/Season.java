@@ -17,7 +17,8 @@ public enum Season {
 
     SEASON_2016_2017("2016-17", 2016),
     SEASON_2017_2018("2017-18", 2017),
-    SEASON_2018_2019("2018-19", 2018);
+    SEASON_2018_2019("2018-19", 2018),
+    SEASON_2019_2020("2019-20", 2019);
 
     private static final Map<String, Season> LOOKUP = Maps.newHashMap();
     private static final List<Season> VALUES = Lists.newArrayList(values());
